@@ -44,3 +44,23 @@ best_fit_mf <- function(mean_mass){
   }
 
 }
+
+# heritability for a given data set, please pay attention to the data that needs to be supplied
+
+anova_vals <- function(daltons = list(),treatment = list(),genotype = list(), drop_zeros = FALSE ){
+
+    data_table <- as.data.table(cbind(daltons,treatment,genotype))
+
+    data_table$daltons <- as.numeric(data_table$daltons)
+
+    if(drop_zeros){
+        data_table <- data_table[data_table$daltons != 0,]
+    }
+
+    model <- lm(daltons~genotype + treatment + genotype*treatment, data = data_table)
+
+    anov_data <- anova(model)
+    
+    variance_data <- sum(anov_data[["Sum Sq"]][1:3]) / sum(anov_data[["Sum Sq"]][1:4])
+    return(variance_data)
+}
