@@ -78,3 +78,34 @@ meta_data <- function(feature = "", data_table = feature_metadata,feature_array 
     return(metadata)
     
 }
+
+# individual heritability of two arrays worth of data against the pmsf genotype and treatment data and their mixed heritability
+# please pay attention to the data that need to be supplied
+
+best_heritability_augumentation <- function(feature_one = list(),feature_two = list(),count_zeroes = TRUE,treatment_data = list(),genotype_data = list()){
+    
+    proto_mixed_set <- as.data.table(cbind(feature_one,feature_two)) 
+
+    mixed_data <- apply(proto_mixed_set,1,function(x) {
+        if(length(which(x == 0)) == 1){
+            return(sum(x))
+        }
+        else{
+            return(mean(unlist(x)))
+        }
+    })
+
+    values <- list()
+
+    if(count_zeroes){
+        values$feature_one_zeroes <- length(which(feature_one == 0))
+        values$feature_two_zeroes <- length(which(feature_two == 0))
+        values$combined_zeroes <- length(which(mixed_data == 0))
+    }
+
+    values$feature_one_heritability <- anova_vals(daltons = feature_one,treatment = treatment_data,genotype = genotype_data)
+    values$feature_two_heritability <- anova_vals(daltons = feature_two,treatment = treatment_data,genotype = genotype_data)
+    values$mixed_heritability <- anova_vals(daltons = mixed_data,treatment = treatment_data,genotype = genotype_data)
+
+    return(values)
+}
