@@ -69,7 +69,7 @@ anova_vals <- function(daltons = list(),treatment = list(),genotype = list(), dr
 
 # this funciton depends on the user supplying very specific params for the 
 
-meta_data <- function(feature = "", data_table = feature_metadata,feature_array = "mass_features",time_array = "feature_time", mass_array = "mean_masses"){
+meta_data <- function(feature = "", data_table = data.table(),feature_array = "mass_features",time_array = "feature_time", mass_array = "mean_masses"){
     
     metadata <- list()
     metadata$mean_mass <- data_table[data_table[[feature_array]] == feature,][[mass_array]]
