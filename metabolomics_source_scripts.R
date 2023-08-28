@@ -64,3 +64,17 @@ anova_vals <- function(daltons = list(),treatment = list(),genotype = list(), dr
     variance_data <- sum(anov_data[["Sum Sq"]][1:3]) / sum(anov_data[["Sum Sq"]][1:4])
     return(variance_data)
 }
+
+# The function to extract the specific date and time for a feature
+
+# this funciton depends on the user supplying very specific params for the 
+
+meta_data <- function(feature = "", data_table = feature_metadata,feature_array = "mass_features",time_array = "feature_time", mass_array = "mean_masses"){
+    
+    metadata <- list()
+    metadata$mean_mass <- data_table[data_table[[feature_array]] == feature,][[mass_array]]
+    metadata$time <- data_table[data_table[[feature_array]] == feature,][[time_array]]
+    
+    return(metadata)
+    
+}
