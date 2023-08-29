@@ -109,3 +109,24 @@ best_heritability_augumentation <- function(feature_one = list(),feature_two = l
 
     return(values)
 }
+
+# Is.salt() function implementation
+# This funciton will use the formula discussed in the following paper  
+# https://www.researchgate.net/publication/307894872_Post-acquisition_filtering_of_salt_cluster_artefacts_for_LC-MS_based_human_metabolomic_studies
+
+is.salt = function(x){
+    x = as.numeric(x)
+
+    integer = floor(x)
+
+    diff = abs(x - integer)
+    
+    litmus = 0.00112*x + 0.01953
+
+    if (diff > litmus){
+        return(TRUE)
+    }
+    else{
+        return(FALSE)
+    }
+}
