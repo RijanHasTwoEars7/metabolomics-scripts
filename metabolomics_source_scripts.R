@@ -130,3 +130,12 @@ is.salt = function(x){
         return(FALSE)
     }
 }
+
+# Function to count zeroes in a array style object
+
+count_items = function(data_list = list(), item = NULL){
+    
+    counts = length(which(data_list == item))
+
+    return(counts)
+}
