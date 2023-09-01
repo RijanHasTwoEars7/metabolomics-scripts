@@ -139,3 +139,8 @@ count_items = function(data_list = list(), item = NULL){
 
     return(counts)
 }
+
+# QOL funciton for ease of use
+range_of_all = function(...){
+    return(range(cbind(...)))
+}
