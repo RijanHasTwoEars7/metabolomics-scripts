@@ -144,3 +144,44 @@ count_items = function(data_list = list(), item = NULL){
 range_of_all = function(...){
     return(range(cbind(...)))
 }
+
+# The funciton to expand formulas
+
+formula_expander <- function(formula){
+  expanded_formula <- list()
+  molecules <- list()
+  functional_groups <- strsplit(formula,"[()]")
+  for(functional_group in functional_groups){
+    typeof(unlist(strsplit(functional_group, "(?<=[a-z])(?=[A-Z])", perl=TRUE)))
+    molecules <- c(molecules,unlist(strsplit(gsub("(?<=.)(?=[A-Z])", " ", functional_group, perl=TRUE), " ")))
+  }
+  for(i in molecules){
+    if(grepl("[0-9]",i)){
+      multiplier <- as.numeric(gsub("[^0-9]", "", i))
+      element <- gsub("[^[:alpha:]]", "", i)
+      expanded_formula <- c(expanded_formula,rep(element, multiplier))
+    } else{
+      expanded_formula <- c(expanded_formula, i)
+    }
+  }
+  return(paste(expanded_formula, collapse = ""))
+}
+
+# The funciton that takes in the molecular formulas and makes matrices
+
+make_matrix <- function(received_molecule) {
+
+    if(received_molecule == 'NA') {
+        return('NA')
+    } else{
+        current_molecule_list <- list()
+        for (i in myElements){
+            current_molecule <- table(strsplit(received_molecule,""))
+            current_molecule_list[i] <- tryCatch(current_molecule[[i]], error = function(e) 0)
+
+        }
+        current_molecules_matrix <- matrix(unlist(current_molecule_list), ncol=1, byrow=TRUE)
+        rownames(current_molecules_matrix) <- c(myElements)
+    }
+    return(as.vector(current_molecules_matrix))
+}
